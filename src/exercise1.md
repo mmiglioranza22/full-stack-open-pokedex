@@ -10,5 +10,5 @@ A: Already answered.
 
 - Q: Would this setup be better in a self-hosted or a cloud-based environment? Why? What information would you need to make that decision?
 
-A: It depends entirely on the proyect and the intended use and targeted audience, and requirements (security, budget, down-time, etc)
+A: It depends entirely on the proyect and the intended use and targeted audience, and requirements (security, budget, down-time, etc.)
 A localized customer specific software (banking) might need its on-premise hoisting due to client's requirements. An extensively available web application might perform and be served better with a cloud-based solution
