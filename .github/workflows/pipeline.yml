@@ -11,8 +11,6 @@ on:
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -42,7 +40,6 @@ jobs:
           multipleDeployment: false
   tag_release:
     needs: [simple_deployment_pipeline]
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-22.04
     permissions:
       contents: write
@@ -53,6 +50,7 @@ jobs:
           fetch-depth: '0'
       - name: semver tag release
         uses: anothrNick/github-tag-action@1.70.0
+        if: ${{ github.event_name == 'push' }}  
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
           WITH_V: true
