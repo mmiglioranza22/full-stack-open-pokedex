@@ -9,10 +9,15 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  build_test:
+  simple_deployment_pipeline:
     runs-on: ubuntu-20.04
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: '0'
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -30,8 +35,26 @@ jobs:
         run: npm run test:e2e
       - name: Render Deployment
         uses: sws2apps/render-deployment@v1.7.0
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' }} 
         with:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
           apiKey: ${{ secrets.RENDER_API_KEY }}
-          multipleDeployment: false 
+          multipleDeployment: false
+  tag_release:
+    needs: [simple_deployment_pipeline]
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: '0'
+      - name: semver tag release
+        uses: anothrNick/github-tag-action@1.70.0
+        if: ${{ github.event_name == 'push' }} 
+        env:
+          GITHUB_TOKEN: ${{ secrets.POKE_TOKEN }} 
+          WITH_V: true
+          PRERELEASE: true
