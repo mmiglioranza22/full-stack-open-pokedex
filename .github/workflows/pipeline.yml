@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  simple_deployment_pipeline:
+  build_test:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
@@ -25,11 +25,14 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: npm run test:e2e
-      - name: Render Deployment
-        uses: sws2apps/render-deployment@v1.7.0
+  main:
+    name: Deploy to Render
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger deployment
+        uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
         with:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
           apiKey: ${{ secrets.RENDER_API_KEY }}
-          multipleDeployment: false 
-      
+          multipleDeployment: false #optional, default true
 
