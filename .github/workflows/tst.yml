@@ -23,3 +23,9 @@ jobs:
           COMMITS: ${{ toJson(github.event.commits) }}
           SKIP_WORKFLOW: ${{ contains(toJson(github.event.commits.*.message), '#skip') }}
         run: echo "COMMITS - $COMMITS \n COMMITS_2 - $COMMIT_2 \n joined - $JOIN_COMMIT_MESSAGES \n skip - $SKIP_WORKFLOW"
+      - name: Test Info
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+            severity: info
+            details: Test succeeded.
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
