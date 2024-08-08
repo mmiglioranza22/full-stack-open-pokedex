@@ -39,8 +39,10 @@ jobs:
       - name: Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: MrRoboto
           AUTHOR: ${{ toJson(github.event.commits.*.author.username) }}
           COMMIT_URL: ${{ toJson(github.event.commits.*.url) }}
+          DISCORD_EMBEDS: '[{"title":"Hello!","description":"Your pizza is ready!\\n:timer:ETA: 10 minutes.","color":14177041,"url":"https://google.com/","timestamp":"2015-12-31T12:00:00.000Z"}]'
         uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
         with:
           args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
