@@ -92,6 +92,9 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-depth: '0'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
       - name: semver tag release
         uses: anothrNick/github-tag-action@777684df761b882a3f4f70db16ac70d8cc78d0ea
         env:
@@ -101,6 +104,7 @@ jobs:
           DEFAULT_BUMP: 'patch'
       - name: Discord notification - job success
         uses: rjstone/discord-webhook-notify@v1.0.4
+        if: success()
         env:
           AUTHOR: ${{ toJson(github.event.commits.*.author.username) }}
           COMMIT_URL: ${{ toJson(github.event.commits.*.url) }}
