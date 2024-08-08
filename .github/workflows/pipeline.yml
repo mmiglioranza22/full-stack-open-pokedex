@@ -15,17 +15,16 @@ jobs:
     outputs:
       output1: ${{ steps.checkSkip.outputs.shouldSkip }}
     steps:
-      - uses: actions/checkout@v4
-        name: "check for #skip in commit"
+      - name: "check for #skip in commit"
+        id: checkSkip
         env:
           COMMITS: ${{ toJson(github.event.commits) }}
           SKIP_WORKFLOW: ${{ contains(toJson(github.event.commits.*.message), '#skip') }}          
-      - id: checkSkip
         run: echo "shouldSkip=$SKIP_WORKFLOW" >> "$GITHUB_OUTPUT"
   
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
-    needs: [check_skip_job]
+    needs: check_skip_job
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,7 +51,7 @@ jobs:
         run: echo "ouput - $OUTPUT1"
       - name: Render Deployment
         uses: sws2apps/render-deployment@v1.7.0
-        if: ${{ github.event_name == 'push' && contains(toJson(github.event.commits.*.message), '#skip')}} 
+        if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip')}} 
         with:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
           apiKey: ${{ secrets.RENDER_API_KEY }}
@@ -69,7 +68,7 @@ jobs:
           fetch-depth: '0'
       - name: semver tag release
         uses: anothrNick/github-tag-action@1.70.0
-        if: ${{ github.event_name == 'push' && contains(toJson(github.event.commits.*.message), '#skip') }}  
+        if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip') }}  
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
           WITH_V: true
