@@ -69,7 +69,6 @@ jobs:
           fetch-depth: '0'
       - name: semver tag release
         uses: anothrNick/github-tag-action@1.70.0
-        if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip') }}  
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
           WITH_V: true
