@@ -46,7 +46,8 @@ jobs:
           SUCCESS: 40811
           INFO: 16753920
           ERROR: 14423100
-          DISCORD_EMBEDS: '[
+          DISCORD_EMBEDS: > 
+                          '[
                             { 
                               "title":"Commit",
                               "description":"Author: ${{ env.AUTHOR }}",
