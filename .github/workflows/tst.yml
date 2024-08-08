@@ -42,8 +42,20 @@ jobs:
           DISCORD_USERNAME: MrRoboto
           AUTHOR: ${{ toJson(github.event.commits.*.author.username) }}
           COMMIT_URL: ${{ toJson(github.event.commits.*.url) }}
-          DISCORD_EMBEDS: '[{"title":"Hello!","description":"Your pizza is ready!\\n:timer:ETA: 10 minutes.","color":14177041,"url":"https://google.com/","timestamp":"2015-12-31T12:00:00.000Z"}]'
+          TIMESTAMP: ${{ toJson(github.event.commits.*.timestamp) }}
+          SUCCESS: 40811
+          INFO: 16753920
+          ERROR: 14423100
+          DISCORD_EMBEDS: '[
+                            { 
+                              "title":"Commit",
+                              "description":"Author: ${{ env.AUTHOR }}",
+                              "color": ${{env.SUCCESS }},
+                              "url":"${{ env.COMMIT_URL}}",
+                              "timestamp": ${{ env.TIMESTAMP }}
+                            }
+                          ]'
         uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
         with:
-          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
+          args: 'New version deploy success.'
         
