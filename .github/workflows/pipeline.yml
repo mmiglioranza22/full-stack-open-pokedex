@@ -104,7 +104,6 @@ jobs:
         env:
           AUTHOR: ${{ toJson(github.event.commits.*.author.username) }}
           COMMIT_URL: ${{ toJson(github.event.commits.*.url) }}
-        if: success()
         with:
           severity: info
           username: ${{ env.AUTHOR }}
