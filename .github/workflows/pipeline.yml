@@ -68,7 +68,7 @@ jobs:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-depth: '0'
       - name: semver tag release
-        uses: anothrNick/github-tag-action@1.70.0
+        uses: anothrNick/github-tag-action@777684df761b882a3f4f70db16ac70d8cc78d0ea
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
           WITH_V: true
