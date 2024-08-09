@@ -47,8 +47,9 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_USERNAME: MrRoboto
-          DISCORD_EMBEDS: >
-            '[{
+          DISCORD_EMBEDS: >-
+            '[
+              {
                 "author":{ 
                   "icon_url":"https://avatars.githubusercontent.com/${{ github.actor }}",
                   "name":"${{ github.actor }}",
@@ -89,7 +90,8 @@ jobs:
                 "footer":{
                   "text":"${{github.event.head_commit.timestamp}}"
                 }
-              }]'
+              }
+            ]'
         with:
           args: "Build ${{github.run_number}} has ${{ steps.buildStep.outcome == 'success' && 'passed!' || 'failed.' }}"
       - name: test
