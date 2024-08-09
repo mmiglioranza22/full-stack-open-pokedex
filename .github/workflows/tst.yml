@@ -5,14 +5,10 @@ on:
     branches:
       - main
 
-env:
-  AUTHOR: ${{ toJson(github.event.commits.*.author.username) }}
-  COMMIT_URL: ${{ toJson(github.event.commits.*.url) }}
-  TIMESTAMP: ${{ toJson(github.event.commits.*.timestamp) }}
-
 jobs:
   a_test_job:
     runs-on: ubuntu-20.04
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -35,13 +31,13 @@ jobs:
           SKIP_WORKFLOW: ${{ contains(toJson(github.event.commits.*.message), '#skip') }}
         run: echo "COMMITS - $COMMITS \n COMMITS_2 - $COMMIT_2 \n joined - $JOIN_COMMIT_MESSAGES \n skip - $SKIP_WORKFLOW"
 
-      # - name: Print vars
-      #   env:
-      #     AUTHOR: ${{ toJson(github.event.commits.*.author.username) }}
-      #     COMMIT_URL: ${{ toJson(github.event.commits.*.url) }}
-      #     TIMESTAMP: ${{ toJson(github.event.commits.*.timestamp) }}
+      - name: Print vars
+        env:
+          AUTHOR: ${{ toJson(github.event.commits.*.author.username) }}
+          COMMIT_URL: ${{ toJson(github.event.commits.*.url) }}
+          TIMESTAMP: ${{ toJson(github.event.commits.*.timestamp) }}
 
-      #   run: echo "AUTHOR - $AUTHOR \n COMMIT_URL - $COMMIT_URL"
+        run: echo "AUTHOR - $AUTHOR \n COMMIT_URL - $COMMIT_URL"
 
       - name: Discord notification
         env:
@@ -53,7 +49,7 @@ jobs:
           # SUCCESS: 40811
           # INFO: 16753920
           # ERROR: 14423100
-          DISCORD_EMBEDS: '[{"title":"Commit", "color": 40811, "url": "$COMMIT_URL") }} }]'
+          DISCORD_EMBEDS: '[{"title":"Commit", "color": 40811, url": ${{ toJson(github.event.commits.*.url)[0] }} }]'
         uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
         with:
           args: "New version deploy success."
