@@ -56,7 +56,7 @@ jobs:
 
       # ,"description":"Author ${{ toJson(github.event.commits.*.author.username) }}",,
       - name: Test Success
-        uses: rjstone/discord-webhook-notify@v1.0.2
+        uses: rjstone/discord-webhook-notify@v1
         env:
           AUTHOR: ${{ toJson(github.event.commits.*.author.username) }}
           COMMIT_URL: ${{ toJson(github.event.commits.*.url) }}
@@ -64,7 +64,7 @@ jobs:
         with:
           severity: info
           details: This are details
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          webhookUrl: "${{ secrets.DISCORD_WEBHOOK }}"
           username: Test bot
           text: This is a text
           footer: this is a footer
