@@ -34,6 +34,8 @@ jobs:
         env:
           AUTHOR: ${{ toJson(github.event.commits.*.author.username) }}
           COMMIT_URL: ${{ toJson(github.event.commits.*.url) }}
+          TIMESTAMP: ${{ toJson(github.event.commits.*.timestamp) }}
+
         run: echo "AUTHOR - $AUTHOR \n COMMIT_URL - $COMMIT_URL"
 
       - name: Discord notification
@@ -43,10 +45,10 @@ jobs:
           AUTHOR: ${{ toJson(github.event.commits.*.author.username) }}
           COMMIT_URL: ${{ toJson(github.event.commits.*.url) }}
           TIMESTAMP: ${{ toJson(github.event.commits.*.timestamp) }}
-          SUCCESS: 40811
-          INFO: 16753920
-          ERROR: 14423100
-          DISCORD_EMBEDS: '[{"title":"[Commit](${{ toJson(github.event.commits.*.timestamp) }})", "color": "40811" }]'
+          # SUCCESS: 40811
+          # INFO: 16753920
+          # ERROR: 14423100
+          DISCORD_EMBEDS: '[{"title":"Commit", "color": "40811", url": "{{ github.event.commits.*.url }}" }]'
         uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
         with:
           args: "New version deploy success."
