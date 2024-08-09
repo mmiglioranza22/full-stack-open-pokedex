@@ -40,7 +40,7 @@ jobs:
         run: npm run eslint
       - name: build
         id: buildStep
-        run: npm run buildfail
+        run: npm run build
       - name: Discord notification
         if: ${{ failure() && steps.buildStep.outcome == 'failure'}}
         uses: Ilshidur/action-discord@0.3.2
