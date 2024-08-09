@@ -46,7 +46,6 @@ jobs:
           SUCCESS: 40811
           INFO: 16753920
           ERROR: 14423100
-          DISCORD_EMBEDS: '[{"title":"Commit","description":"Author: {{ env.AUTHOR }}","color": {{ env.SUCCESS }},"url":"{{ env.COMMIT_URL }}","timestamp": {{ env.TIMESTAMP }}}]'
         uses: Ilshidur/action-discord@0c4b27844ba47cb1c7bee539c8eead5284ce9fa9
         with:
-          args: 'New version deploy success.'
+          args: "New version deploy success."
