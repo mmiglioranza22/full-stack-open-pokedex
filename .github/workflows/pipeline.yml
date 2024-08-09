@@ -67,18 +67,6 @@ jobs:
           serviceId: ${{ secrets.RENDER_SERVICE_ID }}
           apiKey: ${{ secrets.RENDER_API_KEY }}
           multipleDeployment: false
-      - name: Discord notification - job cancelled
-        uses: rjstone/discord-webhook-notify@v1.0.4
-        env:
-          AUTHOR: ${{ toJson(github.event.commits.*.author.username) }}
-          COMMIT_URL: ${{ toJson(github.event.commits.*.url) }}
-        if: cancelled()
-        with:
-          severity: warn
-          username: ${{ env.AUTHOR }}
-          text: Job cancelled
-          details: Commit - ${{ env.COMMIT_URL }}
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   tag_release:
     if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip') }}
