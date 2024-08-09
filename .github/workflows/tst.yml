@@ -13,7 +13,6 @@ env:
 jobs:
   a_test_job:
     runs-on: ubuntu-20.04
-    env:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
