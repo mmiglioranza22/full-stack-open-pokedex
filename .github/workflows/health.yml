@@ -1,13 +1,16 @@
 name: Health check
 
 on:
-  workflow_run:
-    workflows: ["Deployment pipeline"]
-    branches: [main]
-    types: [completed]
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron: "0 */2 * * *"
+  push:
+    branches:
+      - main
+  # workflow_run:
+  #   workflows: ["Deployment pipeline"]
+  #   branches: [main]
+  #   types: [completed]
+  # schedule:
+  #   # * is a special character in YAML so you have to quote this string
+  #   - cron: "0 */2 * * *" # fire every 2 hours at the start of that specific hour
 jobs:
   health_check_periodic:
     runs-on: ubuntu-latest
